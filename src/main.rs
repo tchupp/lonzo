@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate lalrpop_util;
 
-lalrpop_mod!(pub calculator); // synthesized by LALRPOP
+lalrpop_mod!(pub calculator);
 
 fn main() {
     println!("Hello, world!");
