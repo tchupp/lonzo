@@ -1,0 +1,23 @@
+sudo: false
+os:
+- linux
+
+language: rust
+rust:
+- stable
+- beta
+- nightly
+
+matrix:
+  allow_failures:
+  - rust: nightly
+
+cache: cargo
+
+notifications:
+  email:
+    on_success: never
+
+script:
+- cargo build
+- cargo test
