@@ -3,8 +3,8 @@ use std::str::FromStr;
 grammar;
 
 pub Term: i32 = {
-    <n:Num> => n,
-    "(" <t:Term> ")" => t,
+    <Num>,
+    "(" <Term> ")",
 };
 
-Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();
+Num: i32 = r"[0-9]+" => i32::from_str(<>).unwrap();
