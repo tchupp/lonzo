@@ -1,0 +1,12 @@
+[package]
+name = "lonzo"
+version = "0.1.0"
+authors = ["Theo Chupp <tclchiam@gmail.com>"]
+build = "build.rs"
+
+[build-dependencies] # <-- We added this and everything after!
+lalrpop = "0.16"
+
+[dependencies]
+lalrpop-util = "0.16"
+regex = "0.2.1"
