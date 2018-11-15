@@ -1,4 +1,5 @@
 # Lonzo
+[![Build Status](https://travis-ci.org/tchupp/lonzo.svg?branch=master)](https://travis-ci.org/tchupp/lonzo)
 
 Named for Alonzo Church, *Lonzo* is a really simple parser for mathematical expressions
 
