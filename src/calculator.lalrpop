@@ -1,24 +1,33 @@
 use std::str::FromStr;
+use ast::{Expr, Opcode};
 
 grammar;
 
-pub Expr: i32 = {
-    <l:Expr> "+" <r:Factor> => l + r,
-    <l:Expr> "-" <r:Factor> => l - r,
+pub Expr: Box<Expr> = {
+    Expr ExprOp Factor => Box::new(Expr::Op(<>)),
     Factor,
 };
 
-Factor: i32 = {
-    <l:Factor> "*" <r:Term> => l * r,
-    <l:Factor> "/" <r:Term> => l / r,
+ExprOp: Opcode = {
+    "+" => Opcode::Add,
+    "-" => Opcode::Sub,
+};
+
+Factor: Box<Expr> = {
+    Factor FactorOp Term => Box::new(Expr::Op(<>)),
     Term,
 };
 
-Term: i32 = {
-    Num,
-    "(" <Expr> ")",
+FactorOp: Opcode = {
+    "*" => Opcode::Mul,
+    "/" => Opcode::Div,
+};
+
+Term: Box<Expr> = {
+    Num => Box::new(Expr::Number(<>)),
+    "(" <Expr> ")"
 };
 
 Num: i32 = {
-    r"[0-9]+" => i32::from_str(<>).unwrap(),
+    r"[0-9]+" => i32::from_str(<>).unwrap()
 };
