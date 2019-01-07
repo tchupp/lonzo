@@ -24,7 +24,10 @@ mod tests {
         assert_eq!(parser.parse("(14)").unwrap(), Box::new(Expr::Number(14)));
         assert_eq!(parser.parse("((((7))))").unwrap(), Box::new(Expr::Number(7)));
 
-        assert!(parser.parse("((91)").is_err());
+        assert_eq!(
+            parser.parse("((91)").unwrap(),
+            Box::new(Expr::Error("".into()))
+        );
     }
 
     #[test]
@@ -52,7 +55,16 @@ mod tests {
             )
         );
 
-        assert!(parser.parse("1 + (21").is_err());
+        assert_eq!(
+            parser.parse("1 + (21").unwrap(),
+            Box::new(
+                Expr::Op(
+                    Box::new(Expr::Number(1)),
+                    Opcode::Add,
+                    Box::new(Expr::Error("".into())),
+                )
+            )
+        );
     }
 
     #[test]
@@ -80,7 +92,16 @@ mod tests {
             )
         );
 
-        assert!(parser.parse("35 - (12").is_err());
+        assert_eq!(
+            parser.parse("35 - (12").unwrap(),
+            Box::new(
+                Expr::Op(
+                    Box::new(Expr::Number(35)),
+                    Opcode::Sub,
+                    Box::new(Expr::Error("".into())),
+                )
+            )
+        );
     }
 
     #[test]
@@ -108,7 +129,16 @@ mod tests {
             )
         );
 
-        assert!(parser.parse("(5 * 6").is_err());
+        assert_eq!(
+            parser.parse("5 * (6").unwrap(),
+            Box::new(
+                Expr::Op(
+                    Box::new(Expr::Number(5)),
+                    Opcode::Mul,
+                    Box::new(Expr::Error("".into())),
+                )
+            )
+        );
     }
 
     #[test]
@@ -136,6 +166,19 @@ mod tests {
             )
         );
 
-        assert!(parser.parse("(5 / 1").is_err());
+        assert_eq!(
+            parser.parse("* / 1").unwrap(),
+            Box::new(
+                Expr::Op(
+                    Box::new(Expr::Op(
+                        Box::new(Expr::Error("".into())),
+                        Opcode::Mul,
+                        Box::new(Expr::Error("".into())),
+                    )),
+                    Opcode::Div,
+                    Box::new(Expr::Number(1)),
+                )
+            )
+        );
     }
 }

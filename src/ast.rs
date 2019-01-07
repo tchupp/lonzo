@@ -2,6 +2,7 @@
 pub enum Expr {
     Number(i32),
     Op(Box<Expr>, Opcode, Box<Expr>),
+    Error(String),
 }
 
 #[derive(Eq, PartialEq, Debug)]

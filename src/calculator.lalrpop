@@ -25,7 +25,8 @@ FactorOp: Opcode = {
 
 Term: Box<Expr> = {
     Num => Box::new(Expr::Number(<>)),
-    "(" <Expr> ")"
+    "(" <Expr> ")",
+    ! => Box::new(Expr::Error("".into())),
 };
 
 Num: i32 = {
